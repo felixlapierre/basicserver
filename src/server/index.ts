@@ -1,11 +1,10 @@
 import express from "express";
 import http from "http";
 import path from "path";
-import socketIO, { Socket } from "socket.io";
+import {Sockets} from "./sockets";
 
 const app = express();
 const server = new http.Server(app);
-const io = socketIO(server);
 const port = 3000;
 
 app.set("port", port);
@@ -19,12 +18,6 @@ server.listen(port, () => {
     console.log("Started server on port " + port);
 });
 
-// Create the WebSocket handlers
-io.on("connection", (socket: Socket) => {
+const sockets = new Sockets(server);
 
-});
-
-// Test socket emission
-setInterval( () => {
-    io.sockets.emit("message", "Test!");
-}, 1000);
+sockets.EmitTestMessage();
